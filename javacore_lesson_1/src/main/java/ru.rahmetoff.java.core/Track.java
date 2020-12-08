@@ -8,12 +8,11 @@ public class Track implements Main.Obstacle {
         this.length = length;
     }
 
-    public boolean result(int maxRunDistance){
-        if (length <= maxRunDistance){
+    public boolean result(int maxRunDistance) {
+        if (length <= maxRunDistance) {
             System.out.println("Пробежал дистанцию " + length + " метров");
             return true;
-        }
-        else {
+        } else {
             System.out.println("Не пробежал дистанцию " + length + " метров");
             return false;
         }

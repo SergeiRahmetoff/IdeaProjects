@@ -16,7 +16,8 @@ public class Robot implements Main.OvercomeObstacles {
         System.out.println("Робот " + name + " бежит");
         return maxRunDistance;
     }
-    public int jump(){
+
+    public int jump() {
         System.out.println("Робот " + name + " прыгает");
         return maxJumpHeight;
     }

@@ -16,7 +16,8 @@ public class Man implements Main.OvercomeObstacles {
         System.out.println("Человек " + name + " бежит");
         return maxRunDistance;
     }
-    public int jump(){
+
+    public int jump() {
         System.out.println("Человек " + name + " прыгает");
         return maxJumpHeight;
     }

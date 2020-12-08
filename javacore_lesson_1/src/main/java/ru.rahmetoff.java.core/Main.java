@@ -4,6 +4,7 @@ public class Main {
 
     interface OvercomeObstacles {
         int run();
+
         int jump();
     }
 
@@ -27,7 +28,8 @@ public class Main {
             for (Obstacle i : obstacles) {
                 if (i == track) {
                     if (i.result(e.run()) == false) {
-                        break;}
+                        break;
+                    }
                 } else i.result(e.jump());
             }
         }
