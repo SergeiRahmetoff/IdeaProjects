@@ -15,7 +15,7 @@ public class AppGlobalState {
     }
 
     public String getApiKey() {
-        return System.getenv("ACCUWEATHER_API_KEY");
+        return "elUN9sJesNSKHDNdT3w5GaPjRYLRlQF6";
     }
 
     private AppGlobalState(){}
@@ -26,4 +26,14 @@ public class AppGlobalState {
         }
         return instanse;
     }
+
+    private String cityTitle;
+    public String getCityTitle() {
+        return cityTitle;
+    }
+    public void setCityTitle(String cityTitle) { this.cityTitle = cityTitle;  }
+
+    private String weather;
+    public String getWeather() { return weather; }
+    public void setWeather(String weather) {this.weather = weather;    }
 }

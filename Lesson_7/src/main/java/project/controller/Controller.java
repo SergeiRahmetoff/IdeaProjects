@@ -8,7 +8,8 @@ import java.io.IOException;
 public class Controller implements IController {
 
     ICityCodeProvider codeProvider = new AccuWeatherCityCodeProvider();
-    IWeatherProvider weatherProvider = new YandexWeatherProvider();
+    IWeatherProvider weatherProvider = new AccuWeatherProvider();
+    WeatherResponse weatherResponse = new WeatherResponse();
 
     @Override
     public void onCityInput(String city) throws IOException {
@@ -24,6 +25,12 @@ public class Controller implements IController {
         switch (selectedCommand) {
             case 1: {
                 weatherProvider.getCurrentWeather(AppGlobalState.getInstance().getCityKey());
+                weatherResponse.showCurrentWeather(AppGlobalState.getInstance().getWeather());
+                break;
+            }
+            case 2: {
+                weatherProvider.get5DaysWeather(AppGlobalState.getInstance().getCityKey());
+                weatherResponse.show5DaysWeather(AppGlobalState.getInstance().getWeather());
                 break;
             }
             default: {

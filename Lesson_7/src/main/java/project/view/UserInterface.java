@@ -28,7 +28,7 @@ public class UserInterface implements IUserInterface {
                 continue;
             }
 
-            System.out.println("Введите команду\n1 - для получения погоды на текущий день");
+            System.out.println("Введите команду\n1 - для получения погоды на текущий день\n2 - для получения погоды на 5 дней");
 
             int selectedCommand = scanner.nextInt();
 

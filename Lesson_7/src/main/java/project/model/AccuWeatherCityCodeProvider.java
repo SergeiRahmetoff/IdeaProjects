@@ -59,5 +59,7 @@ public class AccuWeatherCityCodeProvider implements ICityCodeProvider {
         System.out.printf("Найден город %s в стране %s!\n", cityTitle, countryTitle);
 
         AppGlobalState.getInstance().setCityKey(cityKey);
+        AppGlobalState.getInstance().setCityTitle(cityTitle);
+
     }
 }
