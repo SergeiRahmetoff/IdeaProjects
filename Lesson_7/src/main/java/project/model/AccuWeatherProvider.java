@@ -1,11 +1,13 @@
 package project.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import project.AppGlobalState;
+import project.model.entity.Weather;
 
 import java.io.IOException;
 
@@ -18,12 +20,10 @@ public class AccuWeatherProvider implements IWeatherProvider {
 
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
+    IWeatherRepository weatherRepository = new SQLiteWeatherRepository();
 
     @Override
-    public void getCurrentWeather(String cityKey) throws IOException {
-        //http://dataservice.accuweather.com/currentconditions/v1/27497?apikey={{accuweatherApiKey}}
-
-
+    public Weather getCurrentWeather(String cityKey) throws IOException {
 
         HttpUrl getWeatherUrl = new HttpUrl.Builder()
                 .scheme("http")
@@ -44,13 +44,19 @@ public class AccuWeatherProvider implements IWeatherProvider {
             throw new IOException("Ошибка сети\n");
 
         }
+        String weather = response.body().string();
 
-        AppGlobalState.getInstance().setWeather(response.body().string());
+        Double temperature = objectMapper.readTree(weather).get(0).at("/Temperature/Metric/Value").asDouble();
+        String[] date = objectMapper.readTree(weather).get(0).at("/LocalObservationDateTime").asText().split("T");
+        String text = objectMapper.readTree(weather).get(0).at("/WeatherText").asText();
+
+        Weather result = new Weather(AppGlobalState.getInstance().getCityTitle(), date[0], text, temperature);
+        weatherRepository.saveWeatherObject(result);
+        return result;
     }
 
     @Override
     public void get5DaysWeather(String cityKey) throws IOException {
-        // http://dataservice.accuweather.com/forecasts/v1/daily/5day/295212?apikey=GvqeG53yh5oCQVlGaaktrWVFlKG0ZvVV&metric=true
 
         HttpUrl getWeatherUrl = new HttpUrl.Builder()
                 .scheme("http")
@@ -74,6 +80,16 @@ public class AccuWeatherProvider implements IWeatherProvider {
             throw new IOException("Ошибка сети\n");
         }
 
-        AppGlobalState.getInstance().setWeather(response.body().string());
+        JsonNode dailyForecast = objectMapper.readTree(response.body().string()).path("DailyForecasts");
+
+        for (JsonNode day : dailyForecast) {
+            String responseDate = day.path("Date").asText();
+            String[] date = responseDate.split("T");
+            String text = day.path("Day").path("IconPhrase").asText();
+            Double temperature = day.path("Temperature").path("Minimum").path("Value").asDouble();
+
+            Weather result = new Weather(AppGlobalState.getInstance().getCityTitle(), date[0], text, temperature);
+            weatherRepository.saveWeatherObject(result);
+        }
     }
 }

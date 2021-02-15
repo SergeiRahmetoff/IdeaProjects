@@ -1,10 +1,12 @@
 package project.model;
 
+import project.model.entity.Weather;
+
 import java.io.IOException;
 
 public interface IWeatherProvider {
 
-    void getCurrentWeather(String cityKey) throws IOException;
+    Weather getCurrentWeather(String cityKey) throws IOException;
 
     void get5DaysWeather(String cityKey) throws IOException;
 
