@@ -1,2 +1,8 @@
-package ru.rahmetoff.java.core;public interface Student {
+package ru.rahmetoff.java.core;
+
+import java.util.List;
+
+interface Student {
+    String getName();
+    List<Course> getAllCourses();
 }

@@ -1,2 +1,5 @@
-package ru.rahmetoff.java.core;public interface Course {
+package ru.rahmetoff.java.core;
+
+public interface Course{
+    String getCourse();
 }
